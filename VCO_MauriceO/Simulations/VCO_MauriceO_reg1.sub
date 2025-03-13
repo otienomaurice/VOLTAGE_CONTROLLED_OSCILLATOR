@@ -1,0 +1,24 @@
+*
+
+.subckt VCO_MauriceO
++       RTN ; input
++       VCAP ; input
++       VCC ; input
++       VCTRL ; input
++       VFB ; input
++       VHI ; input
++       VLO ; input
++       VPOWER ; input
+
+
+.include "G:/Shared drives/VCO_MauriceO/VCO_MauriceO/Models/kicad netlist.lib"
+XU1 /VADJ VCC VPOWER NC-U1-0 lm317
+D1 VCC VPOWER D1N4001
+R2 /VADJ RTN 720
+C1 VPOWER RTN 0.1u
+D2 /VADJ VCC D1N4001
+C3 /VADJ RTN 10u
+C2 VCC RTN 25u
+R1 VCC /VADJ 240
+
+.ends

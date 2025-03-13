@@ -1,0 +1,9 @@
+* G:\Shared drives\VCO_MauriceO\VCO_MauriceO\Simulations\Draft1.asc
+C1 Vc1 N001 0.22µ
+L1 Vc1 Vl1 0.001
+V1 N001 0 1 AC 1 0
+R1 Vl1 0 10K
+.ac dec 20 1 1000000
+;.tran 0 0.05 0 0.1 startup
+.backanno
+.end

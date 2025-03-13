@@ -1,0 +1,249 @@
+*VCO library
+
+*.SUBCKT 5LN01SP 3 4 5
+*                D G S old pinout
+
+.SUBCKT 5LN01SP 1 2 3
+*                S D G new pinout
+M1 2 22 1 1 N3306M5
+RG 3 22 270
+RL 2 1 1.2E8
+C1 22 1 28E-12
+C2 2 22 3E-12
+D1 1 2 N3306D5
+*
+.MODEL N3306M5 NMOS VTO=0.5 RS=1.572 RD=1.436 IS=1E-15 KP=.1233
++CBD=35E-12 PB=1
+.MODEL N3306D5 D IS=5E-12 RS=.768
+.ENDS 5LN01SP
+
+*-------------------------------------------------------------------------------------------
+*	Macromodeling of Integrated Circuit Operational Amplifiers
+*	  by Graeme Boyle, Barry Cohn, Donald Pederson, and James Solomon
+*	IEEE Journal of SoliE-State Circuits, Vol. SC-9, no. 6,	Dec. 1974
+*
+* Differences from the reference (above) occur in the output limiting stage
+* which was modified to reduce internally generated currents associated with
+* output voltage limiting, as well as short-circuit current limiting.
+*
+* The opamps are modelled at room temperature and do not track changes with
+* temperature.  This library file contains models for nominal, not worst case,
+* devices.
+*
+*
+*-----------------------------------------------------------------------------
+* connections:   non-inverting input
+*                | inverting input
+*                | | positive power supply
+*                | | | negative power supply
+*                | | | | output
+*                | | | | |
+.subckt LM324x1  1 2 3 4 5
+*
+  c1   11 12 2.887E-12
+  c2    6  7 30.00E-12
+  dc    5 53 dx
+  de   54  5 dx
+  dlp  90 91 dx
+  dln  92 90 dx
+  dp    4  3 dx
+  egnd 99  0 poly(2) (3,0) (4,0) 0 .5 .5
+  fb    7 99 poly(5) vb vc ve vlp vln 0 21.22E6 -20E6 20E6 20E6 -20E6
+  ga    6  0 11 12 188.5E-6
+  gcm   0  6 10 99 59.61E-9
+  iee   3 10 dc 15.09E-6
+  hlim 90  0 vlim 1K
+  q1   11  2 13 qx
+  q2   12  1 14 qx
+  r2    6  9 100.0E3
+  rc1   4 11 5.305E3
+  rc2   4 12 5.305E3
+  re1  13 10 1.845E3
+  re2  14 10 1.845E3
+  ree  10 99 13.25E6
+  ro1   8  5 50
+  ro2   7 99 25
+  rp    3  4 9.082E3
+  vb    9  0 dc 0
+  vc    3 53 dc 1.500
+  ve   54  4 dc 0.65
+  vlim  7  8 dc 0
+  vlp  91  0 dc 40
+  vln   0 92 dc 40
+.model dx D(Is=800.0E-18 Rs=1)
+.model qx PNP(Is=800.0E-18 Bf=166.7)
+.ends
+*
+*-------------------------------------------------------------------------------------------
+
+
+*-----------------------------------------------------------------------------
+* connections:   non-inverting input
+*                | inverting input
+*                | | positive power supply
+*                | | | negative power supply
+*                | | | | open collector output
+*                | | | | |
+.subckt LM2901x1    1 2 3 4 5
+*
+  f1    9  3 v1 1
+  iee   3  7 dc 100.0E-6
+  vi1  21  1 dc .75
+  vi2  22  2 dc .75
+  q1    9 21  7 qin
+  q2    8 22  7 qin
+  q3    9  8  4 qmo
+  q4    8  8  4 qmi
+.model qin PNP(Is=800.0E-18 Bf=2.000E3)
+.model qmi NPN(Is=800.0E-18 Bf=1002)
+.model qmo NPN(Is=800.0E-18 Bf=1000 Cjc=1E-15 Tr=475.4E-9)
+  e1   10  4  9  4  1
+  v1   10 11 dc 0
+  q5    5 11  4 qoc
+.model qoc NPN(Is=800.0E-18 Bf=20.69E3 Cjc=1E-15 Tf=3.540E-9 Tr=472.8E-9)
+  dp    4  3 dx
+  rp    3  4 37.50E3
+.model dx  D(Is=800.0E-18 Rs=1)
+*
+.ends
+*$
+
+
+
+.subckt LM317 adj out in tab
+rx out tab 0.001
+e1 diff 0 out adj 1
+*vref vref 0 1.25
+e2 out 0 vref diff 10000
+evref vref 0 in 0 table (0 0, 7 0, 7.1 1.25, 100 1.25)
+*r1 in vref 8.75k
+*r2 vref 0 1.25k
+.ends lm317
+
+.model D1N4148  D(Is=2.682n N=1.836 Rs=.5664 Ikf=44.17m Xti=3 Eg=1.11 Cjo=4p
++               M=.3333 Vj=.5 Fc=.5 Isr=1.565n Nr=2 Bv=100 Ibv=100u Tt=11.54n)
+
+.model D1N4001  D(Is=2.682n N=1.836 Rs=.5664 Ikf=44.17m Xti=3 Eg=1.11 Cjo=4p
++               M=.3333 Vj=.5 Fc=.5 Isr=1.565n Nr=2 Bv=100 Ibv=100u Tt=11.54n)
+
+*Pot model
+.subckt R_Potentiometer_US 1 2 3
+r1 1 2 3.5k
+r2 2 3 1.5k
+.ends
+
+
+
+.SUBCKT 74HC00 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+XNAND1 3  1   2  14 7 74AC00x1
+XNAND2 6  4   5  14 7 74AC00x1
+XNAND3 8  9  10  14 7 74AC00x1
+XNAND4 11 12 13  14 7 74AC00x1
+.ENDS
+
+.SUBCKT LM324 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+XAMP1  3  2 4 11 1  LM324x1
+XAMP2  5  6 4 11 7  LM324x1
+XAMP3 10  9 4 11 8  LM324x1
+XAMP4 12 13 4 11 14 LM324x1
+.ENDS
+
+.SUBCKT LM2901 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+XCMP1  5  4 3 12 2  LM2901x1
+XCMP2  7  6 3 12 1  LM2901x1
+XCMP3  9  8 3 12 14 LM2901x1
+XCMP4 11 10 3 12 13 LM2901x1
+r1 1 0 10Meg
+r2 2 0 10Meg
+r3 3 0 10Meg
+r4 4 0 10Meg
+r5 5 0 10Meg
+r6 6 0 10Meg
+r7 7 0 10Meg
+r8 8 0 10Meg
+r9 9 0 10Meg
+r10 10 0 10Meg
+r11 11 0 10Meg
+r12 12 0 10Meg
+r13 13 0 10Meg
+r14 14 0 10Meg
+.ENDS
+
+.SUBCKT CD4007UBE 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+XFET1 13  6 14 14 CD4007_P
+XFET2  1  3  2 14 CD4007_P
+XFET3 12 10 11 14 CD4007_P
+XFET4  8  6  7  7 CD4007_N
+XFET5  5  3  4  7 CD4007_N
+XFET6  12 10 9  7 CD4007_N
+.ends
+
+
+.subckt 74AC00x1 O A1 B1 vcc rtn
+m0 O A1 vcc vcc pmos_1 w=20u l=1.6u
++ ad=96p pd=49.6u as=154.88p ps=105.6u
+m1 vcc B1 O vcc pmos_1 w=20u l=1.6u
++ ad=0p pd=0u as=0p ps=0u
+m2 a_13_3# A1 rtn rtn nmos_1 w=16.8u l=1.6u
++ ad=26.88p pd=36.8u as=67.2p ps=41.6u
+m3 O B1 a_13_3# rtn nmos_1 w=16.8u l=1.6u
++ ad=50.56p pd=41.6u as=0p ps=0u
+C0 vcc rtn 3.5fF
+C1 vcc B1 2.2fF
+C2 vcc A1 2.3fF
+C3 A1 rtn 2.4fF
+C4 O rtn 6.1fF
+C5 B1 rtn 4.4fF
+C6 A1 rtn 4.8fF
+C7 vcc rtn 53.5fF
+.ends 74AC00x1
+
+
+.subckt CD4007_P d g s b
+m1 d g s b pmos_1 w=360u l=5u
+.ends CD4007_P
+
+.subckt CD4007_N d g s b
+m1 d g s b nmos_1 w=170u l=5u
+.ends CD4007_N
+
+**** MOS Models
+
+* T1CI SPICE LEVEL3 PARAMETERS
+*
+* DATE: Feb 11/02
+* LOT: T1CI                  WAF: 7203
+* DIE: N_Area_Fring          DEV: N3740/10
+* Temp= 27
+.MODEL Nmos_1 NMOS (                                 LEVEL  = 3
++ TOX    = 4E-8         NSUB   = 1.193197E16     GAMMA  = 0.7332181
++ PHI    = 0.7             VTO    = 1.4       DELTA  = 0.7182342
++ UO     = 1300     ETA    = 9.998816E-4     THETA  = 0.070571
++ KP     = 7.428765E-5     VMAX   = 1.894035E5      KAPPA  = 0.5
++ RSH    = 0.08379         NFS    = 6.785188E11     TPG    = 1
++ XJ     = 3E-7            LD     = 5.698171E-12    WD     = 6.874538E-7
++ CGDO   = 1.79E-10        CGSO   = 1.79E-10        CGBO   = 1E-10
++ CJ     = 2.880268E-4     PB     = 0.905851        MJ     = 0.5
++ CJSW   = 1.233954E-10    MJSW   = 0.05            )
+*
+*
+* DATE: Feb 11/02
+* LOT: T1CI                  WAF: 7203
+* DIE: P_Area_Fring          DEV: P3740/10
+* Temp= 27
+.MODEL Pmos_1 PMOS (                                 LEVEL  = 3
++ TOX    = 5E-8         NSUB   = 1E17            GAMMA  = 0.4801562
++ PHI    = 0.7             VTO    = -1.65      DELTA  = 0.4180493
++ UO     = 400     ETA    = 0.5             THETA  = 0.1315069
++ KP     = 2.434199E-5     VMAX   = 4.111656E5      KAPPA  = 100
++ RSH    = 34.9751774      NFS    = 4.868265E11     TPG    = -1
++ XJ     = 2E-7            LD     = 6.937406E-14    WD     = 1E-6
++ CGDO   = 2.18E-10        CGSO   = 2.18E-10        CGBO   = 1E-10
++ CJ     = 2.914778E-4     PB     = 0.7457159       MJ     = 0.4262351
++ CJSW   = 1.613212E-10    MJSW   = 0.1035851       )
+*
+
+*  End MOS Models
+
+
+*-----------------------------------------------------------------------------

@@ -1,0 +1,11 @@
+LTspice 24.0.12 for Windows
+Circuit: * G:\Shared drives\VCO_MauriceO\VCO_MauriceO\Simulations\Draft1.asc
+Start Time: Wed Mar 12 14:04:11 2025
+solver = Normal
+Maximum thread count: 4
+tnom = 27
+temp = 27
+method = modified trap
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.602 seconds.
+

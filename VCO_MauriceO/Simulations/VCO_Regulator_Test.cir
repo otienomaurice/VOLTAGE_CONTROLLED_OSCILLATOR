@@ -1,0 +1,15 @@
+*VCO test
+* VCO Regulator Test Bench
+* Ramp Vpower to VCO from 0V to 10V in 1msec after 1msec delay, simulate for 50msec
+
+VPower Vpower 0 10 pulse(0 10 1m 1m 1m 1 2)
+VRTN rtn 0 0
+
+.tran 1m 50m
+
+x1 rtn vcap vcc vctrl vfb vhi vlo vpower VCO_MauriceO
+
+***
+
+.include VCO_MauriceO_reg1.sub
+.end

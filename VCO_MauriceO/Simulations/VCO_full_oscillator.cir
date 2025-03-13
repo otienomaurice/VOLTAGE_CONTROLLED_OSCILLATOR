@@ -1,0 +1,8 @@
+LTSpice Test Bench for V21
+VRTN rtn 0 0
+VPOWER vpower 0 10 PULSE(0 10v 10m 10m 10m 1 5 )
+X1 rtn vcap vcc vctrl vfb Vhi vlo vpower VCO_MauriceO
+.options ITL1=1000
+.tran 1M 100M 90m
+.include VCO_MauriceO_final.sub
+.end

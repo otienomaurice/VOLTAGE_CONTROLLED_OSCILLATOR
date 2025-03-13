@@ -1,0 +1,44 @@
+*
+
+.subckt VCO_MauriceO
++       RTN ; input
++       VCAP ; input
++       VCC ; input
++       VCTRL ; input
++       VFB ; input
++       VHI ; input
++       VLO ; input
++       VPOWER ; input
+
+
+.include "G:/Shared drives/VCO_MauriceO/VCO_MauriceO/Models/kicad netlist.lib"
+D2 /VADJ VCC D1N4001
+XU1 /VADJ VCC VPOWER NC-U1-0 lm317
+R1 VCC /VADJ 240
+D1 VCC VPOWER D1N4001
+R4 VCTRL RTN 2
+R5 VCC VCTRL 10
+XU4 Net-_Q1-G_ Net-_Q1-S_ VCTRL VCC VCAP Net-_U4B--_ Net-_U4B--_ NC-U4-0 NC-U4-1 NC-U4-2 RTN NC-U4-3 NC-U4-4 NC-U4-5 LM324
+R3 Net-_Q1-S_ RTN 10k
+XQ1 Net-_Q1-S_ /V_DN1_GP123 Net-_Q1-G_ 5LN01SP
+XU2 /V_DP2_GN12 VCC /V_DN1_GP123 unconnected-_U2-SN2-Pad4_ unconnected-_U2-DN2-Pad5_ /V_DN1_GP123 RTN unconnected-_U2-DN1-Pad8_ unconnected-_U2-SN3-Pad9_ /V_DN1_GP123 VCC /V_DP3_SP4 /V_DN1_GP123 VCC CD4007UBE
+C1 VPOWER RTN 0.1u
+C3 /VADJ RTN 10u
+R2 /VADJ RTN 720
+XU3 unconnected-_U3-DP2-Pad1_ VCC /V_DP2_GN12 RTN /V_DN2_SN3 /V_DP2_GN12 RTN /V_DP2_GN12 /V_DN2_SN3 VFB /V_DP3_SP4 VCAP unconnected-_U3-DP1-Pad13_ VCC CD4007UBE
+C4 VCAP RTN 0.022u
+XRV1.5 VCC /VWIPER RTN R_Potentiometer_US
+D3 Net-_D3-A_ /VPWM D1N4148
+R11 Net-_D3-A_ VCC 250
+C5 /VPWM unconnected-_C5-Pad2_ 0.022u
+R12 VPOWER Net-_D3-A_ 750
+XU5 /VB2 Net-_R10-Pad2_ VCC VCAP VHI VLO VCAP NC-U5-0 NC-U5-1 /VWIPER Net-_U4B--_ RTN /VPWM NC-U5-2 LM2901
+R10 VCC Net-_R10-Pad2_ 10k
+XU6 Net-_R10-Pad2_ Net-_U6-Pad2_ VFB VFB /VB2 Net-_U6-Pad2_ RTN NC-U6-0 NC-U6-1 NC-U6-2 NC-U6-3 NC-U6-4 NC-U6-5 VCC 74HC00
+R9 /VB2 VCC 10k
+R8 VLO RTN 5k
+R7 VHI VLO 10k
+R6 VCC VHI 10k
+C2 VCC RTN 25u
+
+.ends
