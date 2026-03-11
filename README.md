@@ -37,15 +37,13 @@ Comparator / Switching Stage
 Oscillating Output (PWM / Square Wave)
 # Key Circuit Blocks
 ## Voltage Regulation Unit
-
-The voltage regulation stage provides a stable supply voltage for the oscillator.
-This block ensures:
-consistent operating conditions
-minimal supply noise
-stable current generation in the analog stages
-A stable supply voltage is critical because oscillator frequency depends on precise current levels.
+The first stage of the design is the voltage regulation unit. Its purpose is to provide a stable operating supply for the rest of the oscillator blocks. Since the VCO relies on analog biasing and controlled charging/discharging of a capacitor, stable voltage regulation is necessary to reduce unwanted variation in current levels and switching thresholds. This stage therefore establishes the electrical conditions under which the rest of the oscillator can operate predictably.
+## Control and Biasing Stage
+The VCO is designed to operate for a target control voltage of 1 V and a target oscillation frequency of about 1 kHz. In this stage, the control input is used to set the operating point of the oscillator. This is tied to the voltage-to-current behavior that determines the charge and discharge rate of the timing capacitor.
 ## Voltage-to-Current Converter
-The oscillator frequency is controlled by converting the control voltage into a charging current.
+The oscillator frequency is controlled by converting the control voltage into a charging current. This current is set by a current limiting resistor and NMOS device sititng  across an op amp output in the voltage follower configuration. 
+## 4. Current Mirror Stage
+The current mirror block  is to push current to and pull current from the capacitor, allowing the capacitor to charge and discharge. This means the current mirrors are not just bias elements; they actively form the bidirectional current path that creates the oscillation ramp. The nested DC sweep of vctrl, vcap, and vfb was used to verify that this stage maintains the required current near 0.1 mA under the intended operating conditions.
 The voltage-to-current converter establishes a current approximately equal to:
 I=0.1 mA
 This current determines the slope of the capacitor charging ramp.
