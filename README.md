@@ -80,5 +80,4 @@ I = charging current
 C = timing capacitor
 ΔV = threshold voltage swing
 The circuit parameters were selected to produce a frequency near 1 kHz when 
-𝑉𝐶𝑇𝑅𝐿 = 1
-.
+𝑉𝐶𝑇𝑅𝐿 = 1.
