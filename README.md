@@ -81,3 +81,5 @@ C = timing capacitor
 ΔV = threshold voltage swing
 The circuit parameters were selected to produce a frequency near 1 kHz when 
 𝑉𝐶𝑇𝑅𝐿 = 1.
+<img width="1012" height="727" alt="image" src="https://github.com/user-attachments/assets/b83502d0-35ef-44d5-adba-e982341b272f" />
+
