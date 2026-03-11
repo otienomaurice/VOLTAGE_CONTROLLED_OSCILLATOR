@@ -8,3 +8,77 @@ Current mirror circuits
 Capacitor charging and discharging network
 Pulse width modulation (PWM) interface
 The final stage of the project involved building the circuit on a printed circuit board (PCB) and performing experimental characterization to verify oscillator performance.
+## Project Goals
+
+The primary objectives of this project were:
+Design a voltage controlled oscillator with a 1 kHz operating frequency.
+Use a voltage-to-current converter to control capacitor charging.
+Implement current mirrors to ensure stable charging and discharging currents.
+Validate operation through circuit simulation.
+Fabricate and test the oscillator on a hardware PCB.
+## System Architecture
+
+The VCO consists of several interconnected analog blocks
+Control Voltage
+      │
+      ▼
+Voltage-to-Current Converter
+      │
+      ▼
+Current Mirror Network
+      │
+      ▼
+Capacitor Charging / Discharging
+      │
+      ▼
+Comparator / Switching Stage
+      │
+      ▼
+Oscillating Output (PWM / Square Wave)
+# Key Circuit Blocks
+## Voltage Regulation Unit
+
+The voltage regulation stage provides a stable supply voltage for the oscillator.
+This block ensures:
+consistent operating conditions
+minimal supply noise
+stable current generation in the analog stages
+A stable supply voltage is critical because oscillator frequency depends on precise current levels.
+## Voltage-to-Current Converter
+The oscillator frequency is controlled by converting the control voltage into a charging current.
+The voltage-to-current converter establishes a current approximately equal to:
+I=0.1 mA
+This current determines the slope of the capacitor charging ramp.
+The current mirror is used to replicate the reference current and control capacitor charging behavior.
+
+Functions of this stage:
+mirror the reference current
+provide symmetric charge and discharge currents
+maintain stable oscillator frequency
+During design verification, a nested DC sweep simulation was performed across:
+VCTRL
+VCAP
+VFB	​
+The results confirmed that the mirrored current remained close to the target 0.1 mA.
+The oscillator operates by repeatedly charging and discharging a capacitor.
+### Charging Phase
+1. The current mirror injects a constant current into the capacitor.
+2. Capacitor voltage rises linearly.
+### Threshold Detection
+3. Comparator detects when the voltage reaches a threshold.
+### Discharge Phase
+4. Current direction reverses.
+5. Capacitor discharges linearly.
+This repeating process generates a triangular waveform across the capacitor and a square-wave oscillator output.
+Frequency Relationship
+
+The oscillation frequency depends on the capacitor value and charging current.
+
+A simplified relation is:   𝑓 ≈ 𝐼/(2𝐶Δ𝑉) 
+Where:
+I = charging current
+C = timing capacitor
+ΔV = threshold voltage swing
+The circuit parameters were selected to produce a frequency near 1 kHz when 
+𝑉𝐶𝑇𝑅𝐿 = 1
+.
